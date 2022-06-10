@@ -4,6 +4,7 @@ import pl.britenet.consoleapp.obj.command.Command;
 import pl.britenet.consoleapp.obj.command.HelpCommand;
 import pl.britenet.consoleapp.obj.command.InsertProductCommand;
 import pl.britenet.consoleapp.service.CommandService;
+import pl.britenet.consoleapp.service.DatabaseService;
 import pl.britenet.consoleapp.service.ProductService;
 
 import java.util.Optional;
@@ -14,7 +15,9 @@ public class Main {
     public static boolean IS_ON = true;
 
     public static void main(String[] args) {
-        ProductService productService = new ProductService();
+        DatabaseService databaseService = new DatabaseService();
+
+        ProductService productService = new ProductService(databaseService);
 
         CommandService commandService = new CommandService();
         commandService.registerCommand(new HelpCommand(commandService));

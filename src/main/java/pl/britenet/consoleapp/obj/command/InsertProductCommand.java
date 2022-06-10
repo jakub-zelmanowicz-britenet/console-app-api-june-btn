@@ -20,10 +20,6 @@ public class InsertProductCommand extends Command {
     public void execute() {
         Scanner scanner = new Scanner(System.in);
 
-        //TODO delete when DB support
-        System.out.println("Wprowadź ID produktu:");
-        int id = scanner.nextInt();
-
         System.out.println("Wprowadź nazwę produktu:");
         String name = scanner.nextLine();
         scanner.nextLine();
@@ -32,7 +28,7 @@ public class InsertProductCommand extends Command {
         System.out.println("Wprowadź cenę produktu:");
         double price = scanner.nextDouble();
 
-        Product product = new ProductBuilder(id)
+        Product product = new ProductBuilder()
                 .setName(name)
                 .setDescription(description)
                 .setPrice(price)

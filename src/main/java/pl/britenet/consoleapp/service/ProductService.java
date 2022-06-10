@@ -6,9 +6,11 @@ import java.util.*;
 
 public class ProductService {
 
+    private final DatabaseService databaseService;
     private final Map<Integer, Product> productMap;
 
-    public ProductService() {
+    public ProductService(DatabaseService databaseService) {
+        this.databaseService = databaseService;
         this.productMap = new HashMap<>();
     }
 
@@ -21,24 +23,26 @@ public class ProductService {
     }
 
     public void insertProduct(Product product) {
-        this.productMap.put(product.getId(), product);
+        this.databaseService.performDML(
+                String.format("INSERT INTO product (name, price) VALUES ('%s', '%d')",
+                        product.getName(),
+                        (int) product.getPrice())
+        );
     }
 
     public void updateProduct(Product product) {
-        if (this.productMap.containsKey(product.getId())) {
-            this.productMap.replace(product.getId(), product);
-        }
-        else {
-            throw new IllegalStateException("No such element for update.");
-        }
+        this.databaseService.performDML(
+                String.format("UPDATE product SET name='%s', price='%f' WHERE id='%d'",
+                        product.getName(),
+                        product.getPrice(),
+                        product.getId())
+        );
     }
 
     public void deleteProduct(Product product) {
-        if (this.productMap.containsKey(product.getId())) {
-            this.productMap.remove(product.getId());
-        }
-        else {
-            throw new IllegalStateException("No such element for delete.");
-        }
+        this.databaseService.performDML(
+                String.format("DELETE FROM product WHERE id='%d'",
+                        product.getId())
+        );
     }
 }

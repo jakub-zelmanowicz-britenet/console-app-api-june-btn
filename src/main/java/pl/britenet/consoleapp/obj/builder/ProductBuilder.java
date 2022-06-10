@@ -1,5 +1,6 @@
 package pl.britenet.consoleapp.obj.builder;
 
+import pl.britenet.consoleapp.Constants;
 import pl.britenet.consoleapp.obj.model.Product;
 
 public class ProductBuilder {
@@ -8,6 +9,10 @@ public class ProductBuilder {
 
     public ProductBuilder(int id) {
         this.product = new Product(id);
+    }
+
+    public ProductBuilder() {
+        this.product = new Product(Constants.INVALID_ID);
     }
 
     public ProductBuilder setName(String name) {
