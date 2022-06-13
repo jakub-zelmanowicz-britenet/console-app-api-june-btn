@@ -5,7 +5,9 @@ import com.zaxxer.hikari.HikariDataSource;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 
 public class DatabaseService {
 
@@ -21,6 +23,18 @@ public class DatabaseService {
 
     public DatabaseService() {
         this.configureDataSource();
+    }
+
+    public<T> Optional<T> performSQL(String sql, ResultParser<T> resultParser) {
+        try (Connection connection = this.hikariDataSource.getConnection() ;
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            ResultSet resultSet = statement.executeQuery();
+            return Optional.of(resultParser.parse(resultSet));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return Optional.empty();
+        }
     }
 
     public void performDML(String dml) {

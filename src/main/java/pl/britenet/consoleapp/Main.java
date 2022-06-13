@@ -1,6 +1,7 @@
 package pl.britenet.consoleapp;
 
 import pl.britenet.consoleapp.obj.command.Command;
+import pl.britenet.consoleapp.obj.command.GetProductCommand;
 import pl.britenet.consoleapp.obj.command.HelpCommand;
 import pl.britenet.consoleapp.obj.command.InsertProductCommand;
 import pl.britenet.consoleapp.service.CommandService;
@@ -22,6 +23,7 @@ public class Main {
         CommandService commandService = new CommandService();
         commandService.registerCommand(new HelpCommand(commandService));
         commandService.registerCommand(new InsertProductCommand(productService));
+        commandService.registerCommand(new GetProductCommand(productService));
 
         Scanner scanner = new Scanner(System.in);
         while (IS_ON) {

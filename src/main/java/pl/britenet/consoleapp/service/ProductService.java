@@ -1,7 +1,9 @@
 package pl.britenet.consoleapp.service;
 
+import pl.britenet.consoleapp.obj.builder.ProductBuilder;
 import pl.britenet.consoleapp.obj.model.Product;
 
+import java.sql.SQLException;
 import java.util.*;
 
 public class ProductService {
@@ -19,7 +21,27 @@ public class ProductService {
     }
 
     public Optional<Product> getProduct(int id) {
-        return Optional.of(this.productMap.get(id));
+        return this.databaseService.performSQL(
+                String.format("SELECT * FROM product WHERE id='%d'", id),
+                resultSet -> {
+                    try {
+                        if (resultSet.next()) {
+
+                            String name = resultSet.getString("name");
+                            double price = resultSet.getDouble("price");
+
+                            return new ProductBuilder(id)
+                                    .setName(name)
+                                    .setPrice(price)
+                                    .getProduct();
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+
+                    return null;
+                }
+        );
     }
 
     public void insertProduct(Product product) {
