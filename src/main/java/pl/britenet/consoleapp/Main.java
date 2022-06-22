@@ -7,6 +7,7 @@ import pl.britenet.consoleapp.obj.command.InsertProductCommand;
 import pl.britenet.consoleapp.service.CommandService;
 import pl.britenet.consoleapp.service.DatabaseService;
 import pl.britenet.consoleapp.service.ProductService;
+import pl.britenet.consoleapp.service.UserService;
 
 import java.util.Optional;
 import java.util.Scanner;
@@ -19,6 +20,7 @@ public class Main {
         DatabaseService databaseService = new DatabaseService();
 
         ProductService productService = new ProductService(databaseService);
+        UserService userService = new UserService(databaseService);
 
         CommandService commandService = new CommandService();
         commandService.registerCommand(new HelpCommand(commandService));
